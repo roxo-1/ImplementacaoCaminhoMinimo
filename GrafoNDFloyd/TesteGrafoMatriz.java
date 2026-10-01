@@ -5,7 +5,7 @@ public class TesteGrafoMatriz {
 	public static void main(String args[]) {
 		// Cria um grafo com 5 vértices
 		// Usando o exemplo direcional do arquivo
-		TGrafoND g = new TGrafoND(5);
+		TGrafoND g = new TGrafoND(4);
 
 		// arestas (origem, destino, peso)
 		g.insereAND(1, 2, 20.0f);
@@ -13,7 +13,7 @@ public class TesteGrafoMatriz {
 		g.insereAND(2, 3, 40.0f);
 		g.insereAND(2, 4, 15.0f);
 		g.insereAND(3, 4, 15.0f);
-		g.insereAND(4, 1, 50.0f);
+		g.insereAND(1, 4, 50.0f);
 
 		System.out.println("Grafo original");
 		g.show();
