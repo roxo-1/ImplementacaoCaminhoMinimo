@@ -27,10 +27,7 @@ public class TesteGrafoMatriz {
 		g.showR();
 
 		//g.caminho(1, 1);
-		//g.caminho(1, 6);
-		g.caminho(4, 3);
-
-		//o segundo grafo acho que é nao direcionado, entao tem que modificar o outro codigo ainda
-		//TGrafo g2 = new TGrafo(4);
+		g.caminho(6, 6);
+		//g.caminho(4, 3);
 	}
 }

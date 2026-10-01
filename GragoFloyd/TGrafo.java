@@ -166,11 +166,18 @@ public class TGrafo {
 
 // Exemplo: i = 5 e j= 3, r5,3 = 1 (≠3); r1,3 = 2 (≠3); r2, 3 = 3, logo U53 = (5, 1, 2, 3) e | U53 | = D55, 3 = 4
 	public void caminho(int i, int j){
-		if (i == j) {
+		
+		if (i < 0 || i > n ) { //validação se o vestice existe
+			System.out.println("\nNão existe esse vertice no esquema. Vertice:" + i + " ");
+			return;
+		}
+		
+		if (i == j) { //validação se o caminho é para ele mesmo
 			System.out.println("\nCaminho " + i + " -> " + j + ": (" + i + ") custo 0");
 			return;
 		}
-		if (R[i][j] == 0) {
+
+		if (R[i][j] == 0) { //validdacoa se o caminho existe
 			System.out.println("\nNão existe caminho de " + i + "para " + j);
 			return;
 		}
