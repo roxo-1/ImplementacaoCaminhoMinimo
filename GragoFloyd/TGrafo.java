@@ -167,17 +167,38 @@ public class TGrafo {
 // Exemplo: i = 5 e j= 3, r5,3 = 1 (≠3); r1,3 = 2 (≠3); r2, 3 = 3, logo U53 = (5, 1, 2, 3) e | U53 | = D55, 3 = 4
 	public void caminho(int i, int j){
 		if (i == j) {
-			System.out.println("Caminho " + i + " ->" + j + ": (" + i + ") custo 0");
+			System.out.println("\nCaminho " + i + " -> " + j + ": (" + i + ") custo 0");
+			return;
 		}
 		if (R[i][j] == 0) {
-			System.out.println("Não existe caminho de " + i + "para " + j);
+			System.out.println("\nNão existe caminho de " + i + "para " + j);
+			return;
 		}
 
-		System.out.println("Caminho " + i + " ->" + j + ":");
+		System.out.println("Caminho " + i + " -> " + j + ":");
+
 		int k = R[i][j]; //k1 = rij
 		if (k == j){
-			System.out.println("(" + i + ", " + j + ")");
+			System.out.println("(" + i + ", " + j + ") custo " + D[i][j] + " ");
+			return;
+		} 
+
+		int k2 = R[k][j]; //rk1,j = k2
+		if (k2 == j){
+			System.out.println("(" + i + ", " + k + ", " + j + ") custo " + D[i][j] + " ");
+			return;
 		}
-		System.out.println(" custo " + D[i][j]);
+
+		int k3 = R[k2][j]; //rk2,j = k3
+		if (k3 == j) {
+			System.out.println("(" + i + ", " + k + ", " + k2 + ", " + j + ") custo " + D[i][j] + " ");
+			return;
+		}
+
+		int k4 = R[k3][j]; //rk3,j = k4
+		if (k4 == j) {
+			System.out.println("(" + i + ", " + k + ", " + k2 + ", " + k3 + ", " + j + ") custo " + D[i][j] + " ");
+			return;
+		}
 	}
 }
