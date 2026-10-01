@@ -1,4 +1,4 @@
-package GrafoFloyd;
+package GragoFloyd;
 
 //definição de uma estrutura Matriz de Adjacência para armezanar um grafo
 public class TGrafo {
@@ -7,7 +7,7 @@ public class TGrafo {
 	private	int m; // quantidade de arestas
 	private	float adj[][]; //matriz de adjacência com float
 	private float D[][]; // matriz distancia
-	private float R[][]; // matriz rotas
+	private int R[][]; // matriz rotas
 
 	// Métodos Públicos
 	public TGrafo( int n) {  // construtor
@@ -15,11 +15,11 @@ public class TGrafo {
 	    // No início dos tempos não há arestas
 	    this.m = 0; 
 	    // alocação da matriz do TGrafo
-	    this.adj = new float [n][n];
+	    this.adj = new float [n+1][n+1];
 
 	    // Inicia a matriz com zeros
-		for(int i = 0; i< n; i++)
-			for(int j = 0; j< n; j++)
+		for(int i = 1; i<= n; i++)
+			for(int j = 1; j<= n; j++)
 				this.adj[i][j]= Float.POSITIVE_INFINITY;	
 	}
 
@@ -81,9 +81,9 @@ public class TGrafo {
 	public void show() {
 	    System.out.println("n: " + n );
 	    System.out.println("m: " + m );
-	    for( int i=0; i < n; i++){
+	    for( int i=1; i <= n; i++){
 	    	System.out.print("\n");
-	        for( int w=0; w < n; w++) {
+	        for( int w=1; w <= n; w++) {
             	float peso = adj[i][w];
             	if(peso != Float.POSITIVE_INFINITY)
             		System.out.print("Adj[" + i + "," + w + "]=" + peso + " ");
@@ -96,19 +96,19 @@ public class TGrafo {
 
 	public void floyd(){
 
-		D = new float[n][n]; //matriz de distancia minima D
-		R = new int[n][n]; // matriz de rotas
+		D = new float[n+1][n+1]; //matriz de distancia minima D
+		R = new int[n+1][n+1]; // matriz de rotas
 		
 		// Montando matriz de distancia, replica da adj original D0 = V(G)
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= n; j++) {
 				D[i][j] = adj[i][j];
 
-				// Monta a matriz de rotas R0, se tiver valor, coloco o J, se estiver infinito, coloco -1
+				// Monta a matriz de rotas R0, se tiver valor, coloco o J, se estiver infinito, coloco 0
 				if (adj[i][j] < Float.POSITIVE_INFINITY) { // se (vij < infinito)
 					R[i][j] = j; // então rij <- j
 				} else {
-					R[i][j] = -1; // senão rij <- -1 (usamos -1 ao inves de 0 porque um vertice pode se chamar 0 em outros casos)
+					R[i][j] = 0; // senão rij <- 0
 				}
 			}
 		}
@@ -119,9 +119,9 @@ public class TGrafo {
 		//			se ((i ≠ j) e (dik + dkj < dij)) então
 		//				dij <- dik + dkj;
 		//				rij<- rik;
-		for (int k = 1; k < n; k++) {
-			for (int i = 1; i < n; i++) {
-				for (int j = 1; j < n; j++) {
+		for (int k = 1; k <= n; k++) {
+			for (int i = 1; i <= n; i++) {
+				for (int j = 1; j <= n; j++) {
 					if (i != j && D[i][k] + D[k][j] < D[i][j]) {
 						D[i][j] = D[i][k] + D[k][j]; // dij <- dik + dkj
 						R[i][j] = R[i][k];           // rij <- rik
@@ -130,5 +130,54 @@ public class TGrafo {
 			}
 		}
 	}
+
+	public void showD() {
+	    System.out.println("\nMatriz de distancias D:" );
+		for( int i=1; i <= n; i++){
+			System.out.print("\n");
+	        for( int j=1; j <= n; j++) {
+				float peso = D[i][j];
+            	if(peso == Float.POSITIVE_INFINITY)
+            		System.out.print("D[" + i + "," + j + "]= 0 ");
+            	else System.out.print("D[" + i + "," + j + "]= " + peso + " ");
+				}
+	    }
+	    System.out.println("\n\nfim da impressao da matriz D." );
+	}
+
+
+	public void showR() {
+		System.out.println("\nMatriz de rotas R: (0 = sem rotas ou diagonal)" );
+	    for( int i=1; i <= n; i++){
+			System.out.print("\n");
+	        for( int j=1; j <= n; j++) {
+				System.out.print("R[" + i + "," + j + "]= " + R[i][j] + " ");
+			}
+	    }
+	    System.out.println("\n\nfim da impressao da matriz R." );
+	}
+
+// 	Para encontrarmos um caminho uij utilizamos a matriz de rotas R5 da seguinte forma:
+// Seja rij = k1,
+// se (k1 = j) então o caminho será (i, j);
+// senão seja rk1,j = k2 , se (k2 = j) então o caminho será (i, k1, j)
+// 		senão seja rk2,j = k3, se (k3 = j) então o caminho será (i, k1, k2, j)
+// 		e assim sucessivamente.
+
+// Exemplo: i = 5 e j= 3, r5,3 = 1 (≠3); r1,3 = 2 (≠3); r2, 3 = 3, logo U53 = (5, 1, 2, 3) e | U53 | = D55, 3 = 4
+	public void caminho(int i, int j){
+		if (i == j) {
+			System.out.println("Caminho " + i + " ->" + j + ": (" + i + ") custo 0");
+		}
+		if (R[i][j] == 0) {
+			System.out.println("Não existe caminho de " + i + "para " + j);
+		}
+
+		System.out.println("Caminho " + i + " ->" + j + ":");
+		int k = R[i][j]; //k1 = rij
+		if (k == j){
+			System.out.println("(" + i + ", " + j + ")");
+		}
+		System.out.println(" custo " + D[i][j]);
 	}
 }

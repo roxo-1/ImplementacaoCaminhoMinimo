@@ -1,4 +1,4 @@
-package GrafoFloyd;
+package GragoFloyd;
 
 public class TesteGrafoMatriz {
 
@@ -23,6 +23,8 @@ public class TesteGrafoMatriz {
 
 		// executa o Floyd
 		g.floyd();
+		g.showD();
+		g.showR();
 
 		// TODO: tem que fazer um show do D e do R para ver conferir se realmente fez certo
 
